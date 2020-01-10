@@ -12,7 +12,10 @@
       this.width = width;
       this.currPlayer = 1;
       this.board = this.makeBoard(height,width);
-      this.makeHtmlBoard(height,width);
+      
+      let startButton = document.querySelector("#start");
+      startButton.addEventListener("click", this.makeHtmlBoard.bind(this));
+      // this.makeHtmlBoard(height,width);
    }
    
    //methods
@@ -24,7 +27,7 @@
       return board;
    }
 
-   makeHtmlBoard(height,width) {
+   makeHtmlBoard() {
       const board = document.getElementById('board');
     
       // make column tops (clickable area for adding a piece to that column)
@@ -32,7 +35,7 @@
       top.setAttribute('id', 'column-top');
       top.addEventListener('click', this.handleClick.bind(this));
     
-      for (let x = 0; x < width; x++) {
+      for (let x = 0; x < this.width; x++) {
         const headCell = document.createElement('td');
         headCell.setAttribute('id', x);
         top.append(headCell);
@@ -41,10 +44,10 @@
       board.append(top);
     
       // make main part of board
-      for (let y = 0; y < height; y++) {
+      for (let y = 0; y < this.height; y++) {
         const row = document.createElement('tr');
     
-        for (let x = 0; x < width; x++) {
+        for (let x = 0; x < this.width; x++) {
           const cell = document.createElement('td');
           cell.setAttribute('id', `${y}-${x}`);
           row.append(cell);
@@ -157,3 +160,5 @@
  }
 
 new Game(6, 7);
+
+
