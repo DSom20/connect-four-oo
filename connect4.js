@@ -11,18 +11,24 @@
       this.height = height;
       this.width = width;
       this.currPlayer = 1;
-      this.board = this.makeBoard(height,width);
-      
       let startButton = document.querySelector("#start");
-      startButton.addEventListener("click", this.makeHtmlBoard.bind(this));
+      startButton.addEventListener("click", this.startGame.bind(this));
       // this.makeHtmlBoard(height,width);
    }
    
+   startGame(){
+     const board = document.getElementById('board');
+     board.innerHTML = '';
+     this.board = this.makeBoard();
+     this.makeHtmlBoard();
+   }
+
+
    //methods
-   makeBoard(height,width) {
+   makeBoard() {
       let board = [];
-      for (let y = 0; y < height; y++) {
-        board.push(Array.from({ length: width }));
+      for (let y = 0; y < this.height; y++) {
+        board.push(Array.from({ length: this.width }));
       }
       return board;
    }
