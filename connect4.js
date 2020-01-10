@@ -17,6 +17,7 @@
    }
    
    startGame(){
+     this.gameOver = false;
      const board = document.getElementById('board');
      board.innerHTML = '';
      this.board = this.makeBoard();
@@ -88,6 +89,9 @@
 
   handleClick(evt) {
       // get x from ID of clicked cell
+      if (this.gameOver){
+        return;
+      }
       const x = +evt.target.id;
 
       // get next spot in column (if none, ignore click)
@@ -157,6 +161,7 @@
           // }
 
           if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+            this.gameOver = true;
             return true;
           }
         }
