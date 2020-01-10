@@ -106,11 +106,7 @@
   }
 
   checkForWin() {
-      function _win(cells) {
-        // Check four cells to see if they're all color of current player
-        //  - cells: list of four (y, x) cells
-        //  - returns true if all are legal coordinates & all match currPlayer
-
+      var _win = (cells) => {
         return cells.every(
           ([y, x]) =>
             y >= 0 &&
@@ -120,6 +116,21 @@
             this.board[y][x] === this.currPlayer
         );
       }
+      // OG Method
+      // function _win(cells) {
+      //   // Check four cells to see if they're all color of current player
+      //   //  - cells: list of four (y, x) cells
+      //   //  - returns true if all are legal coordinates & all match currPlayer
+
+      //   return cells.every(
+      //     ([y, x]) =>
+      //       y >= 0 &&
+      //       y < this.height &&
+      //       x >= 0 &&
+      //       x < this.width &&
+      //       this.board[y][x] === this.currPlayer
+      //   );
+      // }
 
       for (let y = 0; y < this.height; y++) {
         for (let x = 0; x < this.width; x++) {
@@ -130,8 +141,13 @@
           const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
           const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
-          // find winner (only checking each win-possibility as needed)
-          if (_win.call(this, horiz) || _win.call(this, vert) || _win.call(this, diagDR) || _win.call(this, diagDL)) {
+          // OG Method
+          // // find winner (only checking each win-possibility as needed)
+          // if (_win.call(this, horiz) || _win.call(this, vert) || _win.call(this, diagDR) || _win.call(this, diagDL)) {
+          //   return true;
+          // }
+
+          if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
             return true;
           }
         }
