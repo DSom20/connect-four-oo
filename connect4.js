@@ -5,27 +5,49 @@
  * board fills (tie)
  */
 
+class Player {
+  constructor(color, number) {
+    this.color = color;
+    this.number = number;
+  }
+}
+
  class Game {
    constructor(height, width) {
       //properties
       this.height = height;
       this.width = width;
-      this.currPlayer = 1;
       let startButton = document.querySelector("#start");
       startButton.addEventListener("click", this.startGame.bind(this));
-      // this.makeHtmlBoard(height,width);
    }
+
+   //Methods
    
    startGame(){
-     this.gameOver = false;
-     const board = document.getElementById('board');
-     board.innerHTML = '';
-     this.board = this.makeBoard();
-     this.makeHtmlBoard();
+      this.gameOver = false;
+      this.player1 = new Player(this.getColor("#p1"), 1);
+      this.player2 = new Player(this.getColor("#p2"), 2);
+      this.currPlayer = this.player1;
+
+      this.updateCssColors();
+
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+      this.board = this.makeBoard();
+      this.makeHtmlBoard();
    }
 
+   updateCssColors() {
+     const root = document.documentElement;
+     root.style.setProperty('--player1-color', this.player1.color);
+     root.style.setProperty('--player2-color', this.player2.color);
+   }
 
-   //methods
+   getColor(id) {
+      const inputElement = document.querySelector(id);
+      return inputElement.value;
+   }
+
    makeBoard() {
       let board = [];
       for (let y = 0; y < this.height; y++) {
@@ -76,7 +98,7 @@
   placeInTable(y, x) {
       const piece = document.createElement('div');
       piece.classList.add('piece');
-      piece.classList.add(`p${this.currPlayer}`);
+      piece.classList.add(`p${this.currPlayer.number}`);
       piece.style.top = -50 * (y + 2);
 
       const spot = document.getElementById(`${y}-${x}`);
@@ -101,12 +123,12 @@
       }
 
       // place piece in board and add to HTML table
-      this.board[y][x] = this.currPlayer;
+      this.board[y][x] = this.currPlayer.number;
       this.placeInTable(y, x);
 
       // check for win
       if (this.checkForWin()) {
-        return this.endGame(`Player ${this.currPlayer} won!`);
+        return this.endGame(`Player ${this.currPlayer.number} won!`);
       }
 
       // check for tie
@@ -115,7 +137,7 @@
       }
 
       // switch players
-      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+      this.currPlayer = this.currPlayer.number === 1 ? this.player2 : this.player1;
   }
 
   checkForWin() {
@@ -126,7 +148,7 @@
             y < this.height &&
             x >= 0 &&
             x < this.width &&
-            this.board[y][x] === this.currPlayer
+            this.board[y][x] === this.currPlayer.number
         );
       }
       // OG Method
@@ -171,5 +193,3 @@
  }
 
 new Game(6, 7);
-
-

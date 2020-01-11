@@ -1,3 +1,8 @@
+:root {
+  --player1-color: red;
+  --player2-color: blue;
+}
+
 /* game board table */
 
 #board td {
@@ -16,11 +21,11 @@
 }
 
 .piece.p1 {
-  background-color: red;
+  background-color: var(--player1-color);
 }
 
 .piece.p2 {
-  background-color: blue;
+  background-color: var(--player2-color);
 }
 
 /* column-top is table row of clickable areas for each column */
